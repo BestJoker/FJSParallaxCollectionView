@@ -59,6 +59,7 @@
 {
     FJSParallaxCollectionViewCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"FJSParallaxCollectionViewCell" forIndexPath:indexPath];
     [cell getValueFromModel:[self.dataArray objectAtIndex:indexPath.item]];
+    cell.cellOffSetY = [cell convertPoint:CGPointMake(cell.bounds.size.width * 0.5, cell.bounds.size.height * 0.5) toView:self.view].y;
     return cell;
 }
 
