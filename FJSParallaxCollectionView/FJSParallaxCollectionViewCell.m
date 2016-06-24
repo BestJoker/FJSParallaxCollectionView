@@ -23,6 +23,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         
+        //一定要注意,这个属性非常重要,超出父视图的视图不会显示出来.
         self.clipsToBounds = YES;
         
         [self setupCustomousView];
@@ -36,6 +37,7 @@
 - (void)setupCustomousView
 {
     self.mainImageView = [UIImageView new];
+    //设置图片的填充方式为填满,并且设置图片的大小超出cell本身,但是中心点居中.
     self.mainImageView.contentMode = UIViewContentModeScaleAspectFill;
     [self.contentView addSubview:self.mainImageView];
     
@@ -105,7 +107,10 @@
 -(void)setCellOffSetY:(CGFloat)cellOffSetY
 {
     _cellOffSetY = cellOffSetY;
+    //cellOffSetY 是这个cell的中心点距离屏幕window的相对位置. 在这里我采用中心点偏移来进行处理视距差效果.
+    //当试图中心点变化范围 0 ~ 667  而图片的中心点变化范围相对于cell的中心点 向上下移动kCenterOffset 距离 所以得出公式 如下.
     CGFloat centerOffSetY = (2 * kCenterOffset / ScreenHeight) * cellOffSetY - kCenterOffset;
+    //为了确保滚动返回不超出图片的大小,导致出现图片衔接出现空白,要确保滚动到最大和最小值.
     centerOffSetY = MAX(-kCenterOffset, centerOffSetY);
     centerOffSetY = MIN(kCenterOffset, centerOffSetY);
     [self.mainImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
